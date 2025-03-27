@@ -1,0 +1,281 @@
+.page-style{
+  background: #ffffff; 
+  margin: 0;
+  /* 
+  flex-direction: column;
+  text-align: center;  
+  justify-content: center; 
+  */
+}
+
+#header {
+  display: flex; /* Включаем Flexbox */
+  justify-content: space-between;
+  align-items: center;
+  background-color: #ffffff;
+  border: 1px;
+  border-bottom: 2px solid #00aeef;
+  height: 50px;
+  width: 100%;
+}
+
+#main{
+  background-color: #ffffff;
+  float: center;
+  text-align: center;
+  justify-content: center; 
+}
+
+#footer{
+  margin-top: 157px;
+  float: center; 
+  background-color: #00aeef;
+  left: 0;
+  width: 100%;
+  height: 80px;
+  font-family: EuclidCircularA, sans-serif;
+  color: black;
+
+  display: flex;
+  text-align: center;
+  justify-content: center; 
+}
+
+#leftSidebar{
+  background-color: #ffffff;
+  float: left;
+  width: 350px;
+  margin-top: 130px;
+  margin-left: 70px;
+  color: black;
+  font-family: EuclidCircularA, sans-serif;
+  font-size: 14px;
+  /*color: #00aeef; */
+}
+
+/*-----header-----*/
+.right-items {
+  display: flex;           /* Включаем Flexbox для контейнера */
+  align-items: center;     /* Выравниваем элементы по вертикали */
+}
+.logo_container{
+  width: 100px;
+  height: 30px;
+  background-image: url("images/yota.png");
+  background-size: cover; /*  Чтобы изображение занимало всю площадь div */
+  background-repeat: no-repeat; /*  Чтобы изображение не повторялось */
+  margin-left: 10px;
+}
+.header-button{
+  height: 40px;
+  width: 120px;
+  border-radius: 0%;          /* округляем кнопку */
+  border: none;                /* отключаем обводку */
+  background: white;         /* задаем серый цвет кнопки */
+  color: #434c5d;                /* задаем белый цвет текста внутри кнопки */
+  font-size: 14px;           /* увеличим размер шрифта */
+  font-family: EuclidCircularA, sans-serif;/* сменим шрифт */
+  cursor: pointer;  
+  margin-left: 10px;
+}
+.header-button:hover {
+  color: black;
+  background: #adcafd; /* при наведение курсора на кнопку, она будет окрашена в серый */
+}
+
+/* Стили для контейнера выпадающего списка */
+.dropdown {
+  position: relative;
+  display: inline-block;
+  font-size: 14px;
+  font-family: EuclidCircularA, sans-serif;
+}
+
+/* Стили для кнопки выпадающего списка */
+.dropdown-button {
+  background-color: white;
+  color: #434c5d;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  font-family: EuclidCircularA, sans-serif;
+}
+
+/* Стили для содержимого выпадающего списка (скрыто по умолчанию) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+/* Стили для ссылок внутри выпадающего списка */
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  font-family: EuclidCircularA, sans-serif;
+  font-size: 13px;
+}
+
+/* Стили для ссылок при наведении */
+.dropdown-content a:hover {background-color: #ddd;}
+
+/* Показать выпадающий список при наведении или клике */
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* Дополнительные стили для кнопки при наведении (необязательно) */
+.dropdown:hover .dropdown-button {
+  color: black;
+  background-color: #adcafd;
+}
+
+/*------main------*/
+.calc_border {
+  background: #cfd7ce;
+  width: 240px;
+  padding: 10px;
+  border-radius: 20px;  
+  margin: 14px auto;
+  margin-top: 90px;
+}
+
+/* селектор для поля вывода результата */
+.result {  
+  /*margin: 30px auto;*/
+  width: 220px;
+  height: 50px;
+  border-radius: 24px;
+  margin: 14px auto;
+  margin-top: 10px;         /* отступ снизу */
+  padding-right: 10px;         /* выступ справа */
+  background: #898989; /* цвет можно задавать и таким образом */
+  text-align: right;           /* примагнитим текст к правой стороне */
+  vertical-align: baseline;     /* нужно как-то прибить текст к низу */
+  color: #ffffff;              /* цвет текста белый */
+  font-size: 1.5rem;
+  font-family: EuclidCircularA, sans-serif;
+}
+
+/* опишем базовый стиль кнопки калькулятора */
+.my-btn { 
+  margin-right: 5px;           /* задаем отступ от кнопки справа */
+  margin-top: 5px;             /* задаем отступ от кнопки сверху*/
+  width: 50px;                 /* задаем ширину кнопки */
+  height: 50px;                /* задаем высоту кнопки */
+  border-radius: 15%;          /* округляем кнопку */
+  border: none;                /* отключаем обводку */
+  background: white;         /* задаем серый цвет кнопки */
+  color: black;                /* задаем белый цвет текста внутри кнопки */
+  font-size: 2rem;           /* увеличим размер шрифта */
+  font-family: EuclidCircularA, sans-serif;/* сменим шрифт */
+  cursor: pointer;             /* при наведении на кнопку курсор будет изменен
+                                  со стрелки на 'указательный палец' */
+  user-select: none;           /* отключаем возможность выделить текст внутри кнопки */
+} 
+
+/* hover - это состояние элемента, когда на него наведен курсор */
+.my-btn:hover {
+  background: #aeef00; /* при наведение курсора на кнопку, она будет окрашена в серый */
+}
+
+/* active - это состояние активации элемента. В случае кнопки - нажатие на нее */
+.my-btn:active {
+  filter: brightness(130%); /* увеличим интенсивность цвета для эффекта вспышки */
+}
+
+/* селектор для кнопок первостепенных операций */
+.my-btn.primary { 
+  background: #ef00ae;
+  color: white; 
+}
+
+/* селектор для кнопок второстепенных операций */
+.my-btn.secondary { 
+  background: #a6a6a6; /* цвет кнопки сервый */
+}
+
+/* селектор для кнопки расчета выражения (=) */
+.my-btn.execute { 
+  width: 110px;          /* сделаем кнопку шире других */
+  border-radius: 5px;   /* подкорректируем округлость */
+}
+
+/*--------------------Стили для кнопки-----------------*/
+/* Стили для контейнера switch */
+.switch {
+  margin-left: 20px;
+  margin-right: 10px;
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+/* Скрываем checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* Стили для слайдера */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: .4s; /* Плавная анимация */
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: .4s; /* Плавная анимация */
+}
+
+/* Закругление слайдера */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+/* Стили, когда checkbox включен */
+input:checked + .slider {
+  background-color: #00aeef;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #00aeef;
+}
+
+input:checked + .slider:before {
+  transform: translateX(26px);
+}
+
+/*------------footer------------ */
+.footer-text{
+  margin-top: 40px;
+  height: 40px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+/*------test------*/
