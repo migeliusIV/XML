@@ -1,15 +1,13 @@
-.page-style{
-  background: #ffffff; 
+body.page-style {
+  min-height: 100vh;
+  background: #ffffff;
   margin: 0;
-  /* 
+  display: flex;
   flex-direction: column;
-  text-align: center;  
-  justify-content: center; 
-  */
 }
 
 #header {
-  display: flex; /* Включаем Flexbox */
+  display: flex;
   justify-content: space-between;
   align-items: center;
   background-color: #ffffff;
@@ -19,11 +17,13 @@
   width: 100%;
 }
 
-#main{
-  background-color: #ffffff;
-  float: center;
-  text-align: center;
-  justify-content: center; 
+#main {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: inherit;
+  min-height: 0;
 }
 
 #footer{
@@ -50,7 +50,6 @@
   color: black;
   font-family: EuclidCircularA, sans-serif;
   font-size: 14px;
-  /*color: #00aeef; */
 }
 
 /*-----header-----*/
@@ -58,29 +57,48 @@
   display: flex;           /* Включаем Flexbox для контейнера */
   align-items: center;     /* Выравниваем элементы по вертикали */
 }
-.logo_container{
+.logo_container {
   width: 100px;
   height: 30px;
   background-image: url("images/yota.png");
-  background-size: cover; /*  Чтобы изображение занимало всю площадь div */
-  background-repeat: no-repeat; /*  Чтобы изображение не повторялось */
+  background-size: cover;
+  background-repeat: no-repeat;
   margin-left: 10px;
+  filter: none;
+  transition: none;
 }
-.header-button{
+.logo_container:hover {
+  filter: none;
+}
+.header-button {
   height: 40px;
   width: 120px;
-  border-radius: 0%;          /* округляем кнопку */
-  border: none;                /* отключаем обводку */
-  background: white;         /* задаем серый цвет кнопки */
-  color: #434c5d;                /* задаем белый цвет текста внутри кнопки */
-  font-size: 14px;           /* увеличим размер шрифта */
-  font-family: EuclidCircularA, sans-serif;/* сменим шрифт */
-  cursor: pointer;  
+  border-radius: 0%;
+  border: none;
+  background: white;
+  color: #434c5d;
+  font-size: 14px;
+  font-family: EuclidCircularA, sans-serif;
+  cursor: pointer;
   margin-left: 10px;
+  box-shadow: none;
+  transition: none;
+  outline: none;
+  font-weight: normal;
 }
 .header-button:hover {
   color: black;
-  background: #adcafd; /* при наведение курсора на кнопку, она будет окрашена в серый */
+  background: #adcafd;
+  box-shadow: none;
+  transform: none;
+}
+body.dark-theme .header-button {
+  background: #1a1a1a;
+  color: #00eaff;
+}
+body.dark-theme .header-button:hover {
+  background: #22303a;
+  color: #00eaff;
 }
 
 /* Стили для контейнера выпадающего списка */
@@ -138,73 +156,115 @@
 
 /*------main------*/
 .calc_border {
-  background: #cfd7ce;
-  width: 240px;
-  padding: 10px;
-  border-radius: 20px;  
+  background: #f4fbfe;
+  width: 255px;
+  padding: 24px 14px 18px 14px;
+  border-radius: 28px;
   margin: 14px auto;
   margin-top: 90px;
+  box-shadow: 0 8px 32px 0 rgba(0,174,239,0.10), 0 1.5px 8px 0 rgba(0,0,0,0.08);
+  transition: background 0.3s;
 }
 
 /* селектор для поля вывода результата */
-.result {  
-  /*margin: 30px auto;*/
-  width: 220px;
-  height: 50px;
-  border-radius: 24px;
-  margin: 14px auto;
-  margin-top: 10px;         /* отступ снизу */
-  padding-right: 10px;         /* выступ справа */
-  background: #898989; /* цвет можно задавать и таким образом */
-  text-align: right;           /* примагнитим текст к правой стороне */
-  vertical-align: baseline;     /* нужно как-то прибить текст к низу */
-  color: #ffffff;              /* цвет текста белый */
-  font-size: 1.5rem;
+.result {
+  width: 228px;
+  height: 56px;
+  border-radius: 18px;
+  margin: 0 auto 18px auto;
+  background: #fff;
+  text-align: right;
+  color: #00aeef;
+  font-size: 2rem;
   font-family: EuclidCircularA, sans-serif;
+  box-shadow: 0 2px 8px 0 rgba(0,174,239,0.07);
+  padding: 0 16px 0 0;
+  border: 1.5px solid #e3f7fd;
+  transition: background 0.3s, color 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.calc_border .my-btn:nth-child(4n) {
+  margin-right: 0;
 }
 
 /* опишем базовый стиль кнопки калькулятора */
-.my-btn { 
-  margin-right: 5px;           /* задаем отступ от кнопки справа */
-  margin-top: 5px;             /* задаем отступ от кнопки сверху*/
-  width: 50px;                 /* задаем ширину кнопки */
-  height: 50px;                /* задаем высоту кнопки */
-  border-radius: 15%;          /* округляем кнопку */
-  border: none;                /* отключаем обводку */
-  background: white;         /* задаем серый цвет кнопки */
-  color: black;                /* задаем белый цвет текста внутри кнопки */
-  font-size: 2rem;           /* увеличим размер шрифта */
-  font-family: EuclidCircularA, sans-serif;/* сменим шрифт */
-  cursor: pointer;             /* при наведении на кнопку курсор будет изменен
-                                  со стрелки на 'указательный палец' */
-  user-select: none;           /* отключаем возможность выделить текст внутри кнопки */
-} 
+.my-btn {
+  margin-right: 7px;
+  margin-top: 7px;
+  width: 54px;
+  height: 54px;
+  border-radius: 16px;
+  border: none;
+  background: #fff;
+  color: #00aeef;
+  font-size: 1.7rem;
+  font-family: EuclidCircularA, sans-serif;
+  cursor: pointer;
+  user-select: none;
+  box-shadow: none;
+  transition: background 0.2s, color 0.2s;
+}
 
-/* hover - это состояние элемента, когда на него наведен курсор */
 .my-btn:hover {
-  background: #aeef00; /* при наведение курсора на кнопку, она будет окрашена в серый */
+  background: #e3f7fd;
+  color: #0090c9;
 }
 
-/* active - это состояние активации элемента. В случае кнопки - нажатие на нее */
-.my-btn:active {
-  filter: brightness(130%); /* увеличим интенсивность цвета для эффекта вспышки */
+.my-btn.primary {
+  background: #00aeef;
+  color: #fff;
 }
 
-/* селектор для кнопок первостепенных операций */
-.my-btn.primary { 
-  background: #ef00ae;
-  color: white; 
+.my-btn.primary:hover {
+  background: #0090c9;
+  color: #fff;
 }
 
-/* селектор для кнопок второстепенных операций */
-.my-btn.secondary { 
-  background: #a6a6a6; /* цвет кнопки сервый */
+.my-btn.secondary {
+  background: #fff;
+  color: #00aeef;
+  font-weight: normal;
 }
 
-/* селектор для кнопки расчета выражения (=) */
-.my-btn.execute { 
-  width: 110px;          /* сделаем кнопку шире других */
-  border-radius: 5px;   /* подкорректируем округлость */
+.my-btn.secondary:hover {
+  background: #e3f7fd;
+  color: #0090c9;
+}
+
+.my-btn.execute {
+  width: 115px;
+  border-radius: 12px;
+  background: #00aeef;
+  color: #fff;
+  font-weight: bold;
+  font-size: 1.7rem;
+}
+
+.my-btn.execute:hover {
+  background: #0090c9;
+}
+
+.eng-btn {
+  border-radius: 16px;
+  border: none;
+  background: #f0f4f7;
+  color: #00aeef;
+  font-size: 1.2rem;
+  font-family: EuclidCircularA, sans-serif;
+  margin-right: 7px;
+  margin-top: 7px;
+  width: 54px;
+  height: 40px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.eng-btn:hover {
+  background: #e3f7fd;
+  color: #0090c9;
 }
 
 /*--------------------Стили для кнопки-----------------*/
@@ -279,3 +339,63 @@ input:checked + .slider:before {
 }
 
 /*------test------*/
+
+body.dark-theme {
+  background: #1a1a1a;
+}
+
+body.dark-theme #main {
+  background: #1a1a1a;
+}
+
+body.dark-theme .calc_border {
+  background: #18232a;
+  box-shadow: none;
+}
+
+body.dark-theme .result {
+  background: #22303a;
+  color: #00eaff;
+  border: none;
+}
+
+body.dark-theme .my-btn {
+  background: #22303a;
+  color: #00eaff;
+}
+
+body.dark-theme .my-btn:hover {
+  background: #22303a;
+  color: #00aeef;
+}
+
+body.dark-theme .my-btn.primary {
+  background: #00aeef;
+  color: #fff;
+}
+
+body.dark-theme .my-btn.primary:hover {
+  background: #00eaff;
+  color: #22303a;
+}
+
+body.dark-theme .my-btn.secondary {
+  background: #22303a;
+  color: #00eaff;
+}
+
+body.dark-theme .my-btn.secondary:hover {
+  background: #18232a;
+  color: #00aeef;
+}
+
+body.dark-theme .my-btn.execute {
+  background: #00aeef;
+  color: #fff;
+}
+
+body.dark-theme .my-btn.execute:hover {
+  background: #00eaff;
+  color: #22303a;
+}
+
