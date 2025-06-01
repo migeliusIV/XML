@@ -1,0 +1,694 @@
+body.page-style {
+  min-height: 100vh;
+  background: #ffffff;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+#header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #ffffff;
+  border: 1px;
+  border-bottom: 2px solid #00aeef;
+  height: 50px;
+  width: 100%;
+}
+
+#main {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: inherit;
+  min-height: 0;
+}
+
+#footer{
+  margin-top: 157px;
+  float: center; 
+  background-color: #00aeef;
+  left: 0;
+  width: 100%;
+  height: 80px;
+  font-family: EuclidCircularA, sans-serif;
+  color: black;
+
+  display: flex;
+  text-align: center;
+  justify-content: center; 
+}
+
+#leftSidebar{
+  background-color: #ffffff;
+  float: left;
+  width: 350px;
+  margin-top: 130px;
+  margin-left: 70px;
+  color: black;
+  font-family: EuclidCircularA, sans-serif;
+  font-size: 14px;
+}
+
+/*-----header-----*/
+.right-items {
+  display: flex;           /* Включаем Flexbox для контейнера */
+  align-items: center;     /* Выравниваем элементы по вертикали */
+}
+.logo_container {
+  width: 100px;
+  height: 30px;
+  background-image: url("images/yota.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  margin-left: 10px;
+  filter: none;
+  transition: none;
+}
+.logo_container:hover {
+  filter: none;
+}
+.header-button {
+  height: 40px;
+  width: 120px;
+  border-radius: 0%;
+  border: none;
+  background: white;
+  color: #434c5d;
+  font-size: 14px;
+  font-family: EuclidCircularA, sans-serif;
+  cursor: pointer;
+  margin-left: 10px;
+  box-shadow: none;
+  transition: none;
+  outline: none;
+  font-weight: normal;
+}
+.header-button:hover {
+  color: black;
+  background: #adcafd;
+  box-shadow: none;
+  transform: none;
+}
+body.dark-theme .header-button {
+  background: #1a1a1a;
+  color: #00eaff;
+}
+body.dark-theme .header-button:hover {
+  background: #22303a;
+  color: #00eaff;
+}
+
+/* Стили для контейнера выпадающего списка */
+.dropdown {
+  position: relative;
+  display: inline-block;
+  font-size: 14px;
+  font-family: EuclidCircularA, sans-serif;
+}
+
+/* Стили для кнопки выпадающего списка */
+.dropdown-button {
+  background-color: white;
+  color: #434c5d;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  font-family: EuclidCircularA, sans-serif;
+}
+
+/* Стили для содержимого выпадающего списка (скрыто по умолчанию) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+/* Стили для ссылок внутри выпадающего списка */
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  font-family: EuclidCircularA, sans-serif;
+  font-size: 13px;
+}
+
+/* Стили для ссылок при наведении */
+.dropdown-content a:hover {background-color: #ddd;}
+
+/* Показать выпадающий список при наведении или клике */
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* Дополнительные стили для кнопки при наведении (необязательно) */
+.dropdown:hover .dropdown-button {
+  color: black;
+  background-color: #adcafd;
+}
+
+/*------main------*/
+.calc_border {
+  background: #f4fbfe;
+  width: 255px;
+  padding: 24px 14px 18px 14px;
+  border-radius: 28px;
+  margin: 14px auto;
+  margin-top: 90px;
+  box-shadow: 0 8px 32px 0 rgba(0,174,239,0.10), 0 1.5px 8px 0 rgba(0,0,0,0.08);
+  transition: background 0.3s;
+}
+
+/* селектор для поля вывода результата */
+.result {
+  width: 228px;
+  height: 56px;
+  border-radius: 18px;
+  margin: 0 auto 18px auto;
+  background: #fff;
+  text-align: right;
+  color: #00aeef;
+  font-size: 2rem;
+  font-family: EuclidCircularA, sans-serif;
+  box-shadow: 0 2px 8px 0 rgba(0,174,239,0.07);
+  padding: 0 16px 0 0;
+  border: 1.5px solid #e3f7fd;
+  transition: background 0.3s, color 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.calc_border .my-btn:nth-child(4n) {
+  margin-right: 0;
+}
+
+/* опишем базовый стиль кнопки калькулятора */
+.my-btn {
+  margin-right: 7px;
+  margin-top: 7px;
+  width: 54px;
+  height: 54px;
+  border-radius: 16px;
+  border: none;
+  background: #fff;
+  color: #00aeef;
+  font-size: 1.7rem;
+  font-family: EuclidCircularA, sans-serif;
+  cursor: pointer;
+  user-select: none;
+  box-shadow: none;
+  transition: background 0.2s, color 0.2s;
+}
+
+.my-btn:hover {
+  background: #e3f7fd;
+  color: #0090c9;
+}
+
+.my-btn.primary {
+  background: #00aeef;
+  color: #fff;
+}
+
+.my-btn.primary:hover {
+  background: #0090c9;
+  color: #fff;
+}
+
+.my-btn.secondary {
+  background: #fff;
+  color: #00aeef;
+  font-weight: normal;
+}
+
+.my-btn.secondary:hover {
+  background: #e3f7fd;
+  color: #0090c9;
+}
+
+.my-btn.execute {
+  width: 115px;
+  border-radius: 12px;
+  background: #00aeef;
+  color: #fff;
+  font-weight: bold;
+  font-size: 1.7rem;
+}
+
+.my-btn.execute:hover {
+  background: #0090c9;
+}
+
+.eng-btn {
+  border-radius: 16px;
+  border: none;
+  background: #f0f4f7;
+  color: #00aeef;
+  font-size: 1.2rem;
+  font-family: EuclidCircularA, sans-serif;
+  margin-right: 7px;
+  margin-top: 7px;
+  width: 54px;
+  height: 40px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.eng-btn:hover {
+  background: #e3f7fd;
+  color: #0090c9;
+}
+
+/*--------------------Стили для кнопки-----------------*/
+/* Стили для контейнера switch */
+.switch {
+  margin-left: 20px;
+  margin-right: 10px;
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+/* Скрываем checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* Стили для слайдера */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: .4s; /* Плавная анимация */
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: .4s; /* Плавная анимация */
+}
+
+/* Закругление слайдера */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+/* Стили, когда checkbox включен */
+input:checked + .slider {
+  background-color: #00aeef;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #00aeef;
+}
+
+input:checked + .slider:before {
+  transform: translateX(26px);
+}
+
+/*------------footer------------ */
+.footer-text{
+  margin-top: 40px;
+  height: 40px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+/*------test------*/
+
+body.dark-theme {
+  background: #1a1a1a;
+}
+
+body.dark-theme #main {
+  background: #1a1a1a;
+}
+
+body.dark-theme .calc_border {
+  background: #18232a;
+  box-shadow: none;
+}
+
+body.dark-theme .result {
+  background: #22303a;
+  color: #00eaff;
+  border: none;
+}
+
+body.dark-theme .my-btn {
+  background: #22303a;
+  color: #00eaff;
+}
+
+body.dark-theme .my-btn:hover {
+  background: #22303a;
+  color: #00aeef;
+}
+
+body.dark-theme .my-btn.primary {
+  background: #00aeef;
+  color: #fff;
+}
+
+body.dark-theme .my-btn.primary:hover {
+  background: #00eaff;
+  color: #22303a;
+}
+
+body.dark-theme .my-btn.secondary {
+  background: #22303a;
+  color: #00eaff;
+}
+
+body.dark-theme .my-btn.secondary:hover {
+  background: #18232a;
+  color: #00aeef;
+}
+
+body.dark-theme .my-btn.execute {
+  background: #00aeef;
+  color: #fff;
+}
+
+body.dark-theme .my-btn.execute:hover {
+  background: #00eaff;
+  color: #22303a;
+}
+
+/*--------------------*
+
+/* Стили для темной темы (перенесены из calculator.html) */
+body.dark-theme {
+  background-color: #1a1a1a;
+}
+
+body.dark-theme .calc_border {
+  background: #2d2d2d;
+}
+
+body.dark-theme .result {
+  background: #3d3d3d;
+  color: #ffffff;
+}
+
+body.dark-theme .my-btn {
+  background: #3d3d3d;
+  color: #ffffff;
+}
+
+body.dark-theme .my-btn:hover {
+  background: #4d4d4d;
+}
+
+body.dark-theme .my-btn.primary {
+  background: #00aeef;
+  color: #ffffff;
+}
+
+body.dark-theme .my-btn.secondary {
+  background: #4d4d4d;
+  color: #ffffff;
+}
+
+body.dark-theme #header {
+  background-color: #2d2d2d;
+  border-bottom: 2px solid #00aeef;
+}
+
+body.dark-theme .header-button {
+  background: #2d2d2d;
+  color: #ffffff;
+}
+
+body.dark-theme .header-button:hover {
+  background: #4d4d4d;
+}
+
+body.dark-theme .dropdown-button {
+  background: #2d2d2d;
+  color: #ffffff;
+}
+
+body.dark-theme .dropdown-content {
+  background-color: #2d2d2d;
+}
+
+body.dark-theme .dropdown-content a {
+  color: #ffffff;
+}
+
+body.dark-theme .dropdown-content a:hover {
+  background-color: #4d4d4d;
+}
+
+/* Стили для темной темы */
+body.dark-theme {
+  background-color: #121212;
+  color: #e0e0e0;
+}
+
+
+
+/* Хедер */
+body.dark-theme .yota-header {
+  background-color: #1e1e1e;
+  border-bottom: 2px solid #00aeef;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+body.dark-theme .yota-logo {
+  color: #00eaff !important;
+  text-shadow: 0 0 10px rgba(0, 234, 255, 0.3);
+}
+
+/* Кнопки */
+body.dark-theme .btn-outline-primary {
+  border-color: #00aeef;
+  color: #00eaff;
+  background-color: transparent;
+  transition: all 0.3s ease;
+}
+
+body.dark-theme .btn-outline-primary:hover {
+  background-color: #00aeef;
+  color: #ffffff;
+  box-shadow: 0 0 15px rgba(0, 174, 239, 0.4);
+}
+
+body.dark-theme .btn-yota {
+  background: #00aeef !important;
+  color: #ffffff !important;
+  box-shadow: 0 2px 8px rgba(0, 174, 239, 0.3);
+  transition: all 0.3s ease;
+}
+
+body.dark-theme .btn-yota:hover {
+  background: #00eaff !important;
+  box-shadow: 0 0 15px rgba(0, 234, 255, 0.5);
+}
+
+/* Карточки тарифов */
+body.dark-theme .tariff-card {
+  background: #1e1e1e !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3) !important;
+  border: 1px solid #2d2d2d !important;
+  transition: all 0.3s ease;
+}
+
+body.dark-theme .tariff-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4) !important;
+  border-color: #00aeef !important;
+}
+
+body.dark-theme .tariff-title {
+  color: #ffffff !important;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+}
+
+body.dark-theme .tariff-price {
+  color: #00eaff !important;
+  text-shadow: 0 0 10px rgba(0, 234, 255, 0.2);
+}
+
+body.dark-theme .tariff-desc {
+  color: #b0b0b0 !important;
+}
+
+/* Заголовки секций */
+body.dark-theme .tariff-section-title {
+  color: #ffffff !important;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+}
+
+/* Модальные окна */
+body.dark-theme .modal-content {
+  background-color: #1e1e1e;
+  border: 1px solid #2d2d2d;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+body.dark-theme .modal-header {
+  border-bottom: 1px solid #2d2d2d;
+}
+
+body.dark-theme .modal-footer {
+  border-top: 1px solid #2d2d2d;
+}
+
+/* Формы */
+body.dark-theme .form-control {
+  background-color: #2d2d2d;
+  border: 1px solid #3d3d3d;
+  color: #e0e0e0;
+}
+
+body.dark-theme .form-control:focus {
+  background-color: #363636;
+  border-color: #00aeef;
+  box-shadow: 0 0 0 0.2rem rgba(0, 174, 239, 0.25);
+  color: #ffffff;
+}
+
+body.dark-theme .form-label {
+  color: #b0b0b0;
+}
+
+/* Переключатель темы */
+body.dark-theme .switch .slider {
+  background-color: #2d2d2d;
+  border: 1px solid #3d3d3d;
+}
+
+body.dark-theme .switch input:checked + .slider {
+  background-color: #00aeef;
+  box-shadow: 0 0 10px rgba(0, 174, 239, 0.4);
+}
+
+body.dark-theme .switch .slider:before {
+  background-color: #ffffff;
+}
+
+/* Детальная страница тарифа */
+.product-container {
+  /* Стили для светлой темы */
+}
+
+
+
+/* Стили для элементов списка тарифа (как в инлайн-стилях) */
+.product-details .list-group-item {
+    background-color: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    margin-bottom: 8px; /* Add space between list items */
+    border-radius: 0.5rem; /* Rounded corners for list items */
+}
+
+.product-details .list-group-flush > .list-group-item {
+    border-width: 1px !important; /* Ensure border is visible */
+}
+
+.product-details .list-group-flush:last-child > .list-group-item:last-child {
+    border-bottom-width: 1px !important; /* Ensure border is visible */
+}
+
+.product-details .list-group {
+    --bs-list-group-border-radius: 0;
+    --bs-list-group-border-width: 0;
+}
+
+.product-details .list-group-flush {
+    border-right: 0; 
+    border-left: 0; 
+    border-radius: 0;
+}
+
+/* Стили для элементов списка тарифа в темной теме */
+body.dark-theme .product-details .list-group-item {
+  background-color: #1e1e1e; /* Темный фон */
+  border-color: #2d2d2d; /* Темная граница */
+  color: #e0e0e0; /* Цвет текста */
+  /* Стили формы и отступов берутся из светлой темы */
+}
+
+body.dark-theme .list-group-item strong {
+    color: #b0b0b0;
+}
+
+body.dark-theme .list-group-item span {
+    color: #ffffff;
+}
+
+/* Секция Просто, быстро, удобно */
+.features-section {
+    /* Стили для светлой темы */
+}
+
+body.dark-theme .features-section {
+  background-color: #1e1e1e; /* Темный фон для секции */
+  border: 1px solid #2d2d2d; /* Темная граница */
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  border-radius: 1rem; /* Скругляем углы секции */
+  padding: 1.5rem; /* Добавляем внутренние отступы */
+  margin-top: 2rem; /* Отступ сверху */
+}
+
+body.dark-theme .features-section .card {
+  background-color: #2d2d2d; /* Немного темнее фон для контраста */
+  border: 1px solid #3d3d3d; /* Цвет границы */
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  /* Стили скругления и отступов берутся из светлой темы */
+}
+
+body.dark-theme .features-section .card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  border-color: #00aeef;
+}
+
+body.dark-theme .features-section .card-title {
+  color: #ffffff;
+}
+
+body.dark-theme .features-section .card-text {
+  color: #b0b0b0;
+}
+
+body.dark-theme .card {
+  background-color: #23272b !important;
+  border: 1px solid #343a40 !important;
+  color: #e0e0e0 !important;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.25) !important;
+  transition: background 0.3s, color 0.3s;
+}
+body.dark-theme .card-title {
+  color: #fff !important;
+}
+body.dark-theme .card-text {
+  color: #b0b0b0 !important;
+}
+

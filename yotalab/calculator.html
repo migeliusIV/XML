@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ru"></html>
+
+<head>
+  <title>Калькулятор</title>
+  <link rel="stylesheet" href="style.css">
+  <!--
+  <link rel="icon" href="images/favicon-16x16.png" sizes="16x16" type="image/png">
+  <link rel="icon" href="images/favicon-32x32.png" sizes="32x32" type="image/png"> 
+  -->
+  <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+  <style>
+    /* Стили для темной темы */
+    body.dark-theme {
+      background-color: #1a1a1a;
+    }
+    
+    body.dark-theme .calc_border {
+      background: #2d2d2d;
+    }
+    
+    body.dark-theme .result {
+      background: #3d3d3d;
+      color: #ffffff;
+    }
+    
+    body.dark-theme .my-btn {
+      background: #3d3d3d;
+      color: #ffffff;
+    }
+    
+    body.dark-theme .my-btn:hover {
+      background: #4d4d4d;
+    }
+    
+    body.dark-theme .my-btn.primary {
+      background: #00aeef;
+      color: #ffffff;
+    }
+    
+    body.dark-theme .my-btn.secondary {
+      background: #4d4d4d;
+      color: #ffffff;
+    }
+    
+    body.dark-theme #header {
+      background-color: #2d2d2d;
+      border-bottom: 2px solid #00aeef;
+    }
+    
+    body.dark-theme .header-button {
+      background: #2d2d2d;
+      color: #ffffff;
+    }
+    
+    body.dark-theme .header-button:hover {
+      background: #4d4d4d;
+    }
+    
+    body.dark-theme .dropdown-button {
+      background: #2d2d2d;
+      color: #ffffff;
+    }
+    
+    body.dark-theme .dropdown-content {
+      background-color: #2d2d2d;
+    }
+    
+    body.dark-theme .dropdown-content a {
+      color: #ffffff;
+    }
+    
+    body.dark-theme .dropdown-content a:hover {
+      background-color: #4d4d4d;
+    }
+  </style>
+</head>
+
+<body class = "page-style">
+  <div id = "header">
+    <div class = "logo_container" onclick="window.location.href='index.html'" style="cursor: pointer;">
+    </div>
+
+    <div class="right-items">
+      <button class="header-button" onclick="window.location.href='about.html'">Обо мне</button>
+      <button class="header-button" onclick="window.location.href='about_lab.html'">О лабораторной</button>
+      
+      <div class="dropdown">
+        <button class="dropdown-button">Тип калькулятора</button>
+        <div class="dropdown-content">
+          <a href="#">Обычный калькулятор</a>
+          <a href="#">Инженерный калькулятор</a>
+        </div>
+      </div>
+    
+      <label class="switch">
+        <input type="checkbox" id="theme-toggle">
+        <span class="slider round"></span>
+      </label>
+    </div>
+  </div>
+
+  <div id = "main"> 
+    <div class = "calc_border">
+      <!-- блок с экраном калькулятора, где будет выводиться результат вычислений. -->
+      <div id="result" class="result">0</div>
+      <div class="engineer-panel" style="display:none; margin-bottom:10px;">
+        <button class="my-btn eng-btn" data-func="square">x²</button>
+        <button class="my-btn eng-btn" data-func="sqrt">√</button>
+        <button class="my-btn eng-btn" data-func="fact">n!</button>
+        <button class="my-btn eng-btn" data-func="back">⌫</button>
+        <button class="my-btn eng-btn" data-func="sin">sin</button>
+        <button class="my-btn eng-btn" data-func="cos">cos</button>
+        <button class="my-btn eng-btn" data-func="tan">tan</button>
+        <button class="my-btn eng-btn" data-func="ctg">ctg</button>
+      </div>
+
+      <!-- блок с кнопками калькулятора. -->
+      <div>
+        <!--горизонтальный ряд из четырех кнопок-->
+        <div>  
+          <button id="btn_op_clear" class="my-btn secondary">C</button>    <!-- про тэг кнопки: https://www.w3schools.com/tags/tag_button.asp -->
+          <button id="btn_op_sign" class="my-btn secondary">+/-</button>
+          <button id="btn_op_percent" class="my-btn secondary">%</button>
+          <button id="btn_op_div" class="my-btn primary">/</button>
+        </div>
+
+        <div>
+          <button id="btn_digit_7" class="my-btn">7</button>
+          <button id="btn_digit_8" class="my-btn">8</button>
+          <button id="btn_digit_9" class="my-btn">9</button>
+          <button id="btn_op_mult" class="my-btn primary">x</button>
+        </div>
+
+        <div>
+          <button id="btn_digit_4" class="my-btn">4</button>
+          <button id="btn_digit_5" class="my-btn">5</button>
+          <button id="btn_digit_6" class="my-btn">6</button>
+          <button id="btn_op_minus" class="my-btn primary">-</button>
+        </div>
+
+        <div>
+          <button id="btn_digit_1" class="my-btn">1</button>
+          <button id="btn_digit_2" class="my-btn">2</button>
+          <button id="btn_digit_3" class="my-btn">3</button>
+          <button id="btn_op_plus" class="my-btn primary">+</button>
+        </div>
+
+        <div>
+          <button id="btn_digit_0" class="my-btn">0</button>
+          <button id="btn_digit_dot" class="my-btn">.</button>
+          <button id="btn_op_equal" class="my-btn primary execute">=</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div id = "footer">
+    <details class="footer-text">
+      <summary> Подробности </summary>
+      <div>ЛР выполнена Сорокиным Михаилом Артёмовичем студентом группы ИУ5-43Б</div>
+    </details>
+  </div>
+
+  <script src="calculator.js"></script>
+  <script type="module">
+    import { initTheme, toggleTheme } from './utils/theme.js';
+    window.addEventListener('DOMContentLoaded', () => {
+      const themeToggle = document.getElementById('theme-toggle');
+      if (themeToggle) {
+        initTheme(themeToggle);
+        themeToggle.addEventListener('change', toggleTheme);
+      } else {
+        initTheme();
+      }
+    });
+  </script>
+</body>
+</html>
