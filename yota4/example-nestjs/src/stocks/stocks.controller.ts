@@ -14,8 +14,17 @@ export class TariffsController {
   }
 
   @Get()
-  async findAll(@Query('name') name?: string): Promise<Tariff[]> {
-    return this.tariffsService.findAll(name);
+  async findAll(
+    @Query('id') id?: string,
+    @Query('name') name?: string,
+    @Query('price') price?: string
+  ): Promise<Tariff[]> {
+    const filters = {
+      ...(id && { id: +id }),
+      ...(name && { name }),
+      ...(price && { price: +price })
+    };
+    return this.tariffsService.findAll(filters);
   }
 
   @Get(':id')
@@ -38,3 +47,5 @@ export class TariffsController {
     return this.tariffsService.remove(+id);
   }
 }
+//кнопка добавить
+//кнопка удалить

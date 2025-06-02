@@ -17,11 +17,14 @@ export class TariffsService {
     return this.tariffsRepository.save(tariff);
   }
 
-  async findAll(name?: string): Promise<Tariff[]> {
-    if (name) {
-      return this.tariffsRepository.find({ where: { name } });
-    }
-    return this.tariffsRepository.find();
+  async findAll(filters?: { id?: number; name?: string; price?: number }): Promise<Tariff[]> {
+    const where: any = {};
+    
+    if (filters?.id) where.id = filters.id;
+    if (filters?.name) where.name = filters.name;
+    if (filters?.price) where.price = filters.price;
+    
+    return this.tariffsRepository.find({ where });
   }
 
   async findOne(id: number): Promise<Tariff> {
