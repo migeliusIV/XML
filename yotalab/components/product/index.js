@@ -23,7 +23,7 @@ export class Product extends Component {
           </div>
           <div class="list-group-item d-flex justify-content-between align-items-center py-3">
             <span>Интернет</span>
-            <span class="tariff-value fw-bold text-primary">${tariff.internet}</span>
+            <span class="tariff-value fw-bold text-primary">${tariff.internet_gb} ГБ</span>
           </div>
           <div class="list-group-item d-flex justify-content-between align-items-center py-3">
             <span>Безлимит на приложения</span>

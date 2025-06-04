@@ -5,7 +5,10 @@ import { ProductCard } from '../../components/product-card/index.js';
 import { TariffForm } from '../../components/tariff-form/index.js';
 import { AdminToggle } from '../../components/admin-toggle/index.js';
 import { Modal } from '../../components/modal/index.js';
-import { getAllTariffs, addTariff, editTariff, deleteTariff, getTariffById } from '../../data/tariffsData.js';
+// было
+//import { getAllTariffs, addTariff, editTariff, deleteTariff, getTariffById } from '../../data/tariffsData.js';
+// должно стать
+import { getAllTariffs, addTariff, editTariff, deleteTariff, getTariffById } from '../../data/tariffsAPI.js'
 
 export class MainPage extends Page {
   constructor() {
@@ -53,9 +56,16 @@ export class MainPage extends Page {
     });
 
     // Обработчик удаления тарифа
-    window.addEventListener('deleteTariff', (e) => {
-      console.log('Delete tariff event received (constructor):', e.detail.tariffId);
-      deleteTariff(e.detail.tariffId);
+    window.addEventListener('deleteTariff', async (e) => {
+    console.log('Delete tariff event received (constructor):', e.detail.tariffId);
+    if (confirm('Вы уверены, что хотите удалить этот тариф?')) {
+        try {
+            await deleteTariff(e.detail.tariffId);
+        } catch (error) {
+            console.error('Failed to delete tariff:', error);
+            alert('Ошибка при удалении тарифа');
+        }
+    }
     });
 
     // Обработчик показа деталей тарифа
@@ -162,29 +172,36 @@ export class MainPage extends Page {
     return this.el;
   }
 
-  renderTariffsList() {
+async renderTariffsList() {
     console.log('Rendering tariffs list...');
     const list = this.el.querySelector('#tariff-list');
     if (!list) {
-      console.error('Tariff list container not found!');
-      return;
+        console.error('Tariff list container not found!');
+        return;
     }
 
     list.innerHTML = '';
-    this.tariffCards = []; // Очищаем массив карточек перед новой отрисовкой
-    const tariffs = getAllTariffs();
-    console.log('Found tariffs:', tariffs);
+    this.tariffCards = [];
     
-    tariffs.forEach(tariff => {
-      const card = new ProductCard(tariff);
-      const cardEl = card.render();
-      this.tariffCards.push(card); // Сохраняем экземпляр карточки
-      list.appendChild(cardEl);
-    });
-
-    // УДАЛЕНО: Код добавления обработчика кликов перенесен в render или конструктор
-
-  }
+    try {
+        const tariffs = await getAllTariffs();
+        console.log('Found tariffs:', tariffs);
+        
+        if (Array.isArray(tariffs)) {
+            tariffs.forEach(tariff => {
+                const card = new ProductCard(tariff);
+                const cardEl = card.render();
+                this.tariffCards.push(card);
+                list.appendChild(cardEl);
+            });
+        } else {
+            console.error('Expected tariffs to be an array but got:', tariffs);
+        }
+    } catch (error) {
+        console.error('Failed to load tariffs:', error);
+        list.innerHTML = '<div class="alert alert-danger">Ошибка загрузки тарифов</div>';
+    }
+}
 
   showTariffForm(tariffId = null) {
     if (!this.state.isAdmin) return;

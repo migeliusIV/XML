@@ -11,19 +11,15 @@ class TariffUrls {
         return `${this.baseUrl}/tariffs/${id}`;
     }
 
-    getTariffByPrice(price) {
-        return `${this.baseUrl}/tariffs?price=${price}`;
-    }
-
     createTariff() {
         return `${this.baseUrl}/tariffs`;
     }
 
-    removeTariffById() {
+    removeTariffById(id) {  // Fixed: added id parameter
         return `${this.baseUrl}/tariffs/${id}`;
     }
 
-    updateTariffById() {
+    updateTariffById(id) {  // Fixed: added id parameter
         return `${this.baseUrl}/tariffs/${id}`;
     }
 }

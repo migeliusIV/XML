@@ -50,9 +50,9 @@ export class TariffForm extends Component {
           </div>
           
           <div class="mb-3">
-            <label for="internet" class="form-label">Интернет</label>
-            <input type="text" class="form-control" id="internet" name="internet" required 
-              value="${this.tariff?.internet || ''}" placeholder="Например: 10 ГБ или Безлимит" style="border-radius: 0.5rem;">
+            <label for="internet_gb" class="form-label">Интернет (ГБ)</label>
+            <input type="number" class="form-control" id="internet_gb" name="internet_gb" required 
+              value="${this.tariff?.internet_gb || ''}" placeholder="Например: 10" style="border-radius: 0.5rem;">
           </div>
           
           <div class="mb-3">
@@ -97,13 +97,16 @@ export class TariffForm extends Component {
       
       const tariffData = {
         name: formData.get('name'),
-        price: formData.get('price'),
-        internet: formData.get('internet'),
-        minutes: formData.get('minutes'),
+        price: Number(formData.get('price')),
+        internet_gb: Number(formData.get('internet_gb')),
+        minutes: Number(formData.get('minutes')),
         description: formData.get('description'),
-        features: formData.get('features').split('\n').filter(f => f.trim()),
-        apps: selectedApps // Добавляем выбранные приложения
+        unlimited_apps: selectedApps,
+        additional_features: {}
       };
+
+      // Выводим данные в консоль для отладки
+      console.log('Sending tariff data:', tariffData);
 
       // Создаем и диспатчим кастомное событие
       const event = new CustomEvent('tariffSubmit', {
