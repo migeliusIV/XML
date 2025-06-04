@@ -11,7 +11,7 @@ export class TariffForm extends Component {
   constructor(tariff = null) {
     super();
     this.tariff = tariff; // Если tariff не null, значит это режим редактирования
-    this.selectedApps = tariff?.apps || [];
+    this.selectedApps = tariff?.unlimited_apps || [];
   }
 
   render() {
@@ -57,8 +57,8 @@ export class TariffForm extends Component {
           
           <div class="mb-3">
             <label for="minutes" class="form-label">Минуты</label>
-            <input type="text" class="form-control" id="minutes" name="minutes" required 
-              value="${this.tariff?.minutes || ''}" placeholder="Например: 300 или Безлимит" style="border-radius: 0.5rem;">
+            <input type="number" class="form-control" id="minutes" name="minutes" required 
+              value="${this.tariff?.minutes || ''}" placeholder="Например: 300 (или -1 для безлимита)" style="border-radius: 0.5rem;">
           </div>
           
           <div class="mb-3">
@@ -94,6 +94,14 @@ export class TariffForm extends Component {
       
       const formData = new FormData(form);
       const selectedApps = Array.from(formData.getAll('apps'));
+      const featuresText = formData.get('features');
+      const features = featuresText ? featuresText.split('\n').filter(f => f.trim()) : [];
+      
+      // Преобразуем массив особенностей в объект для БД
+      const additional_features = features.reduce((obj, feature, index) => {
+        obj[`feature_${index + 1}`] = feature;
+        return obj;
+      }, {});
       
       const tariffData = {
         name: formData.get('name'),
@@ -102,7 +110,7 @@ export class TariffForm extends Component {
         minutes: Number(formData.get('minutes')),
         description: formData.get('description'),
         unlimited_apps: selectedApps,
-        additional_features: {}
+        additional_features
       };
 
       // Выводим данные в консоль для отладки

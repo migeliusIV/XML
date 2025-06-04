@@ -1,15 +1,32 @@
 import { Component } from '../component.js';
-import { AVAILABLE_APPS } from '../tariff-form/index.js'; // Импортируем доступные приложения
+import { AVAILABLE_APPS } from '../tariff-form/index.js';
+import { getTariffById } from '../../data/tariffsAPI.js';
 
 export class Product extends Component {
-  constructor(tariff) {
+  constructor(tariffId) {
     super();
-    this.tariff = tariff;
+    this.tariffId = tariffId;
+    this.tariff = null;
   }
+
+  async init() {
+    try {
+      this.tariff = await getTariffById(this.tariffId);
+      if (!this.tariff) {
+        throw new Error('Tariff not found');
+      }
+    } catch (error) {
+      console.error('Failed to load tariff:', error);
+    }
+  }
+
   render() {
-    // Using a fragment or a simple div to avoid the Bootstrap card style
-    // this.el = document.createElement('div'); // REMOVED: Use the element created in constructor
-    this.el.className = 'product-details product-container'; // Add classes for specific styling
+    this.el.className = 'product-details product-container';
+
+    if (!this.tariff) {
+      this.el.innerHTML = '<div class="alert alert-danger">Тариф не найден</div>';
+      return this.el;
+    }
 
     const tariff = this.tariff;
 
@@ -19,17 +36,17 @@ export class Product extends Component {
         <div class="list-group list-group-flush mb-0">
           <div class="list-group-item d-flex justify-content-between align-items-center py-3">
             <span>Звонки</span>
-            <span class="tariff-value fw-bold text-primary">${tariff.minutes} минут</span>
+            <span class="tariff-value fw-bold text-primary">${this.formatMinutes(tariff.minutes)}</span>
           </div>
           <div class="list-group-item d-flex justify-content-between align-items-center py-3">
             <span>Интернет</span>
-            <span class="tariff-value fw-bold text-primary">${tariff.internet_gb} ГБ</span>
+            <span class="tariff-value fw-bold text-primary">${this.formatInternetGb(tariff.internet_gb)}</span>
           </div>
           <div class="list-group-item d-flex justify-content-between align-items-center py-3">
             <span>Безлимит на приложения</span>
             <span>
-              ${tariff.apps && tariff.apps.length > 0 ? 
-                  tariff.apps.map(appKey => {
+              ${tariff.unlimited_apps && tariff.unlimited_apps.length > 0 ? 
+                  tariff.unlimited_apps.map(appKey => {
                     const app = AVAILABLE_APPS[appKey];
                     return app ? `<img src="../../${app.icon}" alt="${app.name}" style="width: 24px; height: 24px; margin-right: 4px;">` : '';
                   }).join('')
@@ -39,36 +56,45 @@ export class Product extends Component {
           </div>
         </div>
 
-        <!-- Tariff Description formatted as list-group-item -->
+        ${tariff.description ? `
         <div class="list-group list-group-flush mb-0">
           <div class="list-group-item py-3">
             <h4 class="mb-2" style="font-size: 1rem; font-weight: 600;">Описание тарифа</h4>
             <p class="mb-0" style="font-size: 0.9em;">${tariff.description}</p>
           </div>
         </div>
+        ` : ''}
 
-        <!-- Additional Features formatted as list-group-item -->
-        ${tariff.features && tariff.features.length > 0 ? `
+        ${tariff.additional_features && Object.keys(tariff.additional_features).length > 0 ? `
           <div class="list-group list-group-flush mb-0">
             <div class="list-group-item py-3">
               <h4 class="mb-2" style="font-size: 1rem; font-weight: 600;">Дополнительные особенности</h4>
               <ul class="mb-0" style="font-size: 0.9em; padding-left: 20px;">
-                ${tariff.features.map(feature => `<li>${feature}</li>`).join('')}
+                ${Object.values(tariff.additional_features).map(feature => `<li>${feature}</li>`).join('')}
               </ul>
             </div>
           </div>
         ` : ''}
 
-        <!-- Price section -->
         <div class="d-flex justify-content-between align-items-center bg-primary text-white p-3 rounded-3 mb-4">
           <div class="price-info" style="font-size: 1.5em; font-weight: bold;">
-            ${tariff.price} ₽ <span style="font-size: 0.7em; font-weight: normal;">за 30 дней</span>
+            ${this.formatPrice(tariff.price)} ₽ <span style="font-size: 0.7em; font-weight: normal;">за 30 дней</span>
           </div>
         </div>
-      </div>
-      
-    `; // Removed inline styles
+      </div>`;
 
     return this.el;
+  }
+
+  formatMinutes(minutes) {
+    return minutes === -1 ? 'Безлимит' : `${minutes} минут`;
+  }
+
+  formatInternetGb(gb) {
+    return gb === -1 ? 'Безлимит' : `${gb} ГБ`;
+  }
+
+  formatPrice(price) {
+    return Number(price).toLocaleString('ru-RU');
   }
 } 

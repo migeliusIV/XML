@@ -57,15 +57,14 @@ export class MainPage extends Page {
 
     // Обработчик удаления тарифа
     window.addEventListener('deleteTariff', async (e) => {
-    console.log('Delete tariff event received (constructor):', e.detail.tariffId);
-    if (confirm('Вы уверены, что хотите удалить этот тариф?')) {
-        try {
-            await deleteTariff(e.detail.tariffId);
-        } catch (error) {
-            console.error('Failed to delete tariff:', error);
-            alert('Ошибка при удалении тарифа');
-        }
-    }
+      console.log('Delete tariff event received:', e.detail.tariffId);
+      try {
+        await deleteTariff(e.detail.tariffId);
+        // Обновляем список после удаления
+        this.renderTariffsList();
+      } catch (error) {
+        console.error('Failed to delete tariff:', error);
+      }
     });
 
     // Обработчик показа деталей тарифа
@@ -105,10 +104,11 @@ export class MainPage extends Page {
                   detail: { tariffId: tariffId }
                 }));
               } else if (deleteButton) {
-                console.log('Delete button clicked (delegation)', tariffId);
+                const tariffId = deleteButton.dataset.id;
+                console.log('Delete button clicked:', tariffId);
                 if (confirm('Вы уверены, что хотите удалить этот тариф?')) {
                   window.dispatchEvent(new CustomEvent('deleteTariff', { 
-                    detail: { tariffId: tariffId }
+                    detail: { tariffId }
                   }));
                 }
               } else if (detailsButton) {
@@ -219,19 +219,26 @@ async renderTariffsList() {
     document.body.appendChild(modal.render());
 
     // Обработка отправки формы
-    formElement.addEventListener('tariffSubmit', (e) => {
+    formElement.addEventListener('tariffSubmit', async (e) => {
       console.log('Form submitted:', e.detail);
       const { tariffData, isEdit, tariffId } = e.detail;
       
-      if (isEdit) {
-        editTariff(tariffId, tariffData);
-      } else {
-        addTariff(tariffData);
+      try {
+        if (isEdit) {
+          await editTariff(tariffId, tariffData);
+        } else {
+          await addTariff(tariffData);
+        }
+        
+        // Закрываем модальное окно только после успешного сохранения
+        modal.el.remove();
+        this.state.showForm = false;
+        
+        // Обновляем список тарифов
+        await this.renderTariffsList();
+      } catch (error) {
+        console.error('Failed to save tariff:', error);
       }
-      
-      // Закрываем модальное окно
-      modal.el.remove();
-      this.state.showForm = false;
     });
 
     // Обработка отмены
