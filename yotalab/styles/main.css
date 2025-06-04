@@ -1,0 +1,68 @@
+:root {
+    --yota-primary: #00B5FF;
+    --yota-dark: #2D3A43;
+    --yota-bg: #F8FAFC;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: var(--yota-bg);
+    color: var(--yota-dark);
+}
+
+.hero {
+    background: var(--yota-primary);
+    color: #fff;
+    border-radius: 2rem;
+    padding: 3rem 2rem 2rem 2rem;
+    margin-bottom: 2.5rem;
+    box-shadow: 0 4px 24px 0 rgba(0,181,255,0.10);
+    position: relative;
+    overflow: hidden;
+}
+
+.tariff-section-title {
+    font-size: 2rem;
+    font-weight: 900;
+    margin-bottom: 2rem;
+    color: var(--yota-dark);
+}
+
+.product-container {
+    background: #fff;
+    border-radius: 1.5rem;
+    padding: 2rem;
+    box-shadow: 0 2px 12px 0 rgba(0,0,0,0.06);
+}
+
+.list-group-item {
+    border: none;
+    border-bottom: 1px solid #eee;
+}
+
+.list-group-item:last-child {
+    border-bottom: none;
+}
+
+.tariff-value {
+    color: var(--yota-primary);
+}
+
+.price-info {
+    color: #fff;
+}
+
+.btn-yota {
+    background: var(--yota-primary);
+    color: #fff;
+    border-radius: 2rem;
+    font-weight: 700;
+    padding: 0.6rem 2rem;
+    border: none;
+    transition: background 0.2s;
+}
+
+.btn-yota:hover {
+    background: #0090cc;
+    color: #fff;
+} 

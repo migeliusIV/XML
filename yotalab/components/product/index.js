@@ -1,23 +1,10 @@
 import { Component } from '../component.js';
 import { AVAILABLE_APPS } from '../tariff-form/index.js';
-import { getTariffById } from '../../data/tariffsAPI.js';
 
 export class Product extends Component {
-  constructor(tariffId) {
+  constructor(tariff) {
     super();
-    this.tariffId = tariffId;
-    this.tariff = null;
-  }
-
-  async init() {
-    try {
-      this.tariff = await getTariffById(this.tariffId);
-      if (!this.tariff) {
-        throw new Error('Tariff not found');
-      }
-    } catch (error) {
-      console.error('Failed to load tariff:', error);
-    }
+    this.tariff = tariff;
   }
 
   render() {
