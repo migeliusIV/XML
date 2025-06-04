@@ -234,8 +234,7 @@ async renderTariffsList() {
         modal.el.remove();
         this.state.showForm = false;
         
-        // Обновляем список тарифов
-        await this.renderTariffsList();
+        // Не нужно явно вызывать renderTariffsList, так как это произойдет через событие tariffsUpdated
       } catch (error) {
         console.error('Failed to save tariff:', error);
       }
