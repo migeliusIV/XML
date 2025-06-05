@@ -5,10 +5,7 @@ import { ProductCard } from '../../components/product-card/index.js';
 import { TariffForm } from '../../components/tariff-form/index.js';
 import { AdminToggle } from '../../components/admin-toggle/index.js';
 import { Modal } from '../../components/modal/index.js';
-// было
-//import { getAllTariffs, addTariff, editTariff, deleteTariff, getTariffById } from '../../data/tariffsData.js';
-// должно стать
-import { getAllTariffs, addTariff, editTariff, deleteTariff, getTariffById } from '../../data/tariffsAPI.js'
+import { getAllTariffs, addTariff, editTariff, deleteTariff, getTariffById } from '../../data/tariffsAPI.js';
 
 export class MainPage extends Page {
   constructor() {
@@ -20,27 +17,22 @@ export class MainPage extends Page {
       isAdmin: localStorage.getItem('isAdmin') === 'true'
     };
 
-    // Массив для хранения экземпляров ProductCard
     this.tariffCards = [];
-
-    // Флаг для гарантии однократного добавления слушателя кликов на список тарифов
     this.tariffListListenerAdded = false;
 
-    // Подписываемся на события только один раз при создании экземпляра страницы
-
-    // Обработчик обновления тарифов: перерисовывает весь список
-    window.addEventListener('tariffsUpdated', () => {
+    // Обработчик обновления тарифов
+    window.addEventListener('tariffsUpdated', (e) => {
       console.log('Tariffs updated event received (constructor)');
-      this.renderTariffsList(); // При обновлении данных все равно нужно перерисовать весь список
+      if (!e.detail || e.detail.needFullRefresh !== false) {
+        this.renderTariffsList();
+      }
     });
 
-    // Обработчик изменения режима администратора: перезагружаем страницу
+    // Обработчик изменения режима администратора
     window.addEventListener('adminModeChanged', (e) => {
       console.log('Admin mode changed (constructor):', e.detail.isAdmin);
-      // Сохраняем новый режим в localStorage
       localStorage.setItem('isAdmin', e.detail.isAdmin);
-      // Перезагружаем страницу для полной очистки состояния
-      window.location.reload(); // Принудительная перезагрузка для сброса состояния
+      window.location.reload();
     });
 
     // Обработчик добавления тарифа
@@ -60,8 +52,7 @@ export class MainPage extends Page {
       console.log('Delete tariff event received:', e.detail.tariffId);
       try {
         await deleteTariff(e.detail.tariffId);
-        // Обновляем список после удаления
-        this.renderTariffsList();
+        this.removeTariffCard(e.detail.tariffId);
       } catch (error) {
         console.error('Failed to delete tariff:', error);
       }
@@ -73,73 +64,53 @@ export class MainPage extends Page {
       window.location.hash = `#/product/${e.detail.tariffId}`;
     });
 
-    // Добавляем один обработчик кликов на контейнер списка тарифов (делегирование событий) в конструкторе
-    // Это гарантирует, что обработчик добавится только один раз при создании страницы.
-    // Используем requestAnimationFrame для гарантии, что #tariff-list элемент существует в DOM.
-    const setupTariffListListener = () => {
-        const list = this.el.querySelector('#tariff-list');
-        if (list && !this.tariffListListenerAdded) {
-            console.log('Adding tariff list click listener (constructor)');
-            list.addEventListener('click', (e) => {
-              const target = e.target;
-              // Ищем ближайший элемент с data-id, который находится внутри .tariff-card
-              const cardElement = target.closest('.tariff-card');
-              if (!cardElement) return; // Клик был не по карточке или ее содержимому
+    this.setupTariffListListener();
+  }
 
-              // Находим элемент с data-id внутри cardElement (это может быть сама карточка или кнопка)
-              const idElement = cardElement.querySelector('[data-id]');
-              // Если idElement не найден, возможно, клик был по самой карточке, но без data-id (например, по padding)
-              // В этом случае, попробуем найти data-id на самой карточке, если он там есть (сейчас data-id на кнопках/ссылке)
-              const tariffId = parseInt(idElement ? idElement.dataset.id : cardElement.dataset.id);
-              if (isNaN(tariffId)) return; // Не удалось получить корректный tariffId
+  setupTariffListListener() {
+    const list = this.el.querySelector('#tariff-list');
+    if (list && !this.tariffListListenerAdded) {
+      console.log('Adding tariff list click listener (constructor)');
+      list.addEventListener('click', (e) => {
+        const target = e.target;
+        const cardElement = target.closest('.tariff-card');
+        if (!cardElement) return;
 
-              // Проверяем, является ли кликнутый элемент или его родитель кнопкой редактирования или удаления
-              const editButton = target.closest('.edit-tariff');
-              const deleteButton = target.closest('.delete-tariff');
-              const detailsButton = target.closest('.details-btn');
+        const idElement = cardElement.querySelector('[data-id]');
+        const tariffId = parseInt(idElement ? idElement.dataset.id : cardElement.dataset.id);
+        if (isNaN(tariffId)) return;
 
-              if (editButton) {
-                console.log('Edit button clicked (delegation)', tariffId);
-                window.dispatchEvent(new CustomEvent('editTariff', { 
-                  detail: { tariffId: tariffId }
-                }));
-              } else if (deleteButton) {
-                const tariffId = deleteButton.dataset.id;
-                console.log('Delete button clicked:', tariffId);
-                if (confirm('Вы уверены, что хотите удалить этот тариф?')) {
-                  window.dispatchEvent(new CustomEvent('deleteTariff', { 
-                    detail: { tariffId }
-                  }));
-                }
-              } else if (detailsButton) {
-                console.log('Details button clicked (delegation)', tariffId);
-                // При клике на кнопку подробнее, просто переходим по ссылке, не диспатчим событие
-                // Предотвращаем действие по умолчанию, если это не ссылка
-                if (target.tagName !== 'A') {
-                    e.preventDefault();
-                    window.location.hash = `#/product/${tariffId}`;
-                }
-              } else { // Если клик был по самой карточке (или другой части, не кнопке/ссылке), переходим на страницу деталей
-                console.log('Card background clicked (delegation)', tariffId);
-                window.location.hash = `#/product/${tariffId}`;
-              }
-            });
-            this.tariffListListenerAdded = true; // Устанавливаем флаг после добавления слушателя
-        } else if (!this.tariffListListenerAdded) {
-            console.log('Tariff list element not found, retrying listener setup (constructor)');
-            // Если список еще не в DOM, попробуем снова в следующем кадре анимации
-            requestAnimationFrame(setupTariffListListener);
+        const editButton = target.closest('.edit-tariff');
+        const deleteButton = target.closest('.delete-tariff');
+        const detailsButton = target.closest('.details-btn');
+
+        if (editButton) {
+          window.dispatchEvent(new CustomEvent('editTariff', { 
+            detail: { tariffId }
+          }));
+        } else if (deleteButton) {
+          if (confirm('Вы уверены, что хотите удалить этот тариф?')) {
+            window.dispatchEvent(new CustomEvent('deleteTariff', { 
+              detail: { tariffId }
+            }));
+          }
+        } else if (detailsButton) {
+          if (target.tagName !== 'A') {
+            e.preventDefault();
+            window.location.hash = `#/product/${tariffId}`;
+          }
+        } else {
+          window.location.hash = `#/product/${tariffId}`;
         }
-    };
-
-    // Запускаем установку слушателя сразу
-    setupTariffListListener();
-
+      });
+      this.tariffListListenerAdded = true;
+    } else if (!this.tariffListListenerAdded) {
+      requestAnimationFrame(() => this.setupTariffListListener());
+    }
   }
 
   render() {
     console.log('Rendering main page...');
-    // Создаем базовую структуру страницы
     this.el.innerHTML = `
       <div id="header-container"></div>
       <div class="container">
@@ -149,103 +120,101 @@ export class MainPage extends Page {
       </div>
     `;
 
-    // Добавляем компоненты
     this.header = new Header();
     const headerContainer = this.el.querySelector('#header-container');
-    if (headerContainer) {
-      headerContainer.appendChild(this.header.render());
-    }
+    if (headerContainer) headerContainer.appendChild(this.header.render());
 
     const carousel = new Carousel();
     const carouselContainer = this.el.querySelector('#carousel-container');
-    if (carouselContainer) {
-      carouselContainer.appendChild(carousel.render());
-    }
+    if (carouselContainer) carouselContainer.appendChild(carousel.render());
 
-    // Добавляем переключатель режима администратора
     const adminToggle = new AdminToggle();
     this.el.appendChild(adminToggle.render());
 
-    // Рендерим список тарифов при первом рендере страницы
     this.renderTariffsList();
-
     return this.el;
   }
 
-async renderTariffsList() {
+  async renderTariffsList() {
     console.log('Rendering tariffs list...');
     const list = this.el.querySelector('#tariff-list');
     if (!list) {
-        console.error('Tariff list container not found!');
-        return;
+      console.error('Tariff list container not found!');
+      return;
     }
 
+    const scrollPosition = window.scrollY;
     list.innerHTML = '';
-    this.tariffCards = [];
     
     try {
-        const tariffs = await getAllTariffs();
-        console.log('Found tariffs:', tariffs);
-        
-        if (Array.isArray(tariffs)) {
-            tariffs.forEach(tariff => {
-                const card = new ProductCard(tariff);
-                const cardEl = card.render();
-                this.tariffCards.push(card);
-                list.appendChild(cardEl);
-            });
-        } else {
-            console.error('Expected tariffs to be an array but got:', tariffs);
-        }
+      const tariffs = await getAllTariffs();
+      console.log('Found tariffs:', tariffs);
+      
+      if (Array.isArray(tariffs)) {
+        this.tariffCards = tariffs.map(tariff => {
+          const existingCard = this.tariffCards.find(c => c.tariff.id === tariff.id);
+          return existingCard || new ProductCard(tariff);
+        });
+
+        this.tariffCards.forEach(card => {
+          list.appendChild(card.render());
+        });
+      } else {
+        console.error('Expected tariffs to be an array but got:', tariffs);
+      }
     } catch (error) {
-        console.error('Failed to load tariffs:', error);
-        list.innerHTML = '<div class="alert alert-danger">Ошибка загрузки тарифов</div>';
+      console.error('Failed to load tariffs:', error);
+      list.innerHTML = '<div class="alert alert-danger">Ошибка загрузки тарифов</div>';
     }
-}
+
+    window.scrollTo(0, scrollPosition);
+  }
+
+  removeTariffCard(tariffId) {
+    const list = this.el.querySelector('#tariff-list');
+    if (!list) return;
+
+    const cardElement = list.querySelector(`[data-id="${tariffId}"]`);
+    if (cardElement) cardElement.remove();
+
+    this.tariffCards = this.tariffCards.filter(card => {
+      if (card.tariff.id === tariffId) {
+        card.el = null;
+        return false;
+      }
+      return true;
+    });
+  }
 
   async showTariffForm(tariffId = null) {
     if (!this.state.isAdmin) return;
     
     console.log('Showing tariff form for tariffId:', tariffId);
-    
     const tariff = tariffId ? await getTariffById(tariffId) : null;
-    console.log('Tariff for form:', tariff);
     
     const form = new TariffForm(tariff);
     const formElement = form.render();
-
-    // Создаем модальное окно с формой
     const modal = new Modal(formElement);
     document.body.appendChild(modal.render());
 
-    // Обработка отправки формы
     formElement.addEventListener('tariffSubmit', async (e) => {
-      console.log('Form submitted:', e.detail);
       const { tariffData, isEdit, tariffId } = e.detail;
-      
       try {
         if (isEdit) {
           await editTariff(tariffId, tariffData);
         } else {
           await addTariff(tariffData);
         }
-        
-        // Закрываем модальное окно только после успешного сохранения
         modal.el.remove();
         this.state.showForm = false;
-        
-        // Не нужно явно вызывать renderTariffsList, так как это произойдет через событие tariffsUpdated
       } catch (error) {
         console.error('Failed to save tariff:', error);
       }
     });
 
-    // Обработка отмены
     formElement.addEventListener('tariffFormCancel', () => {
-      console.log('Form cancelled');
-      // Закрываем модальное окно
       modal.el.remove();
       this.state.showForm = false;
     });
   }
-} 
+}
