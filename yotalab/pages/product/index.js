@@ -1,7 +1,7 @@
 import { Page } from '../page.js';
 import { Product } from '../../components/product/index.js';
 import { Header } from '../../components/header/index.js';
-import { getTariffById } from '../../data/tariffsData.js';
+import { getTariffById } from '../../data/tariffsAPI.js';
 
 export class ProductPage extends Page {
   constructor(id) {
