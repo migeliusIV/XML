@@ -203,12 +203,12 @@ async renderTariffsList() {
     }
 }
 
-  showTariffForm(tariffId = null) {
+  async showTariffForm(tariffId = null) {
     if (!this.state.isAdmin) return;
     
     console.log('Showing tariff form for tariffId:', tariffId);
     
-    const tariff = tariffId ? getTariffById(tariffId) : null;
+    const tariff = tariffId ? await getTariffById(tariffId) : null;
     console.log('Tariff for form:', tariff);
     
     const form = new TariffForm(tariff);

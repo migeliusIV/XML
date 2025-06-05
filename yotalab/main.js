@@ -16,20 +16,21 @@ function parseRoute() {
   return { route: location.hash || '', id: null };
 }
 
-function render() {
+async function render() {
   const { route, id } = parseRoute();
   const app = document.getElementById('app');
   app.innerHTML = '';
   const PageClass = routes[route] || MainPage;
   const page = new PageClass(id);
-  app.appendChild(page.render());
+  const pageElement = await page.render();
+  app.appendChild(pageElement);
 }
 
 // Make render function globally accessible
 window.render = render;
 
-window.addEventListener('hashchange', render);
-window.addEventListener('DOMContentLoaded', () => {
-  render(); // Рендерим начальную страницу
+window.addEventListener('hashchange', () => render());
+window.addEventListener('DOMContentLoaded', async () => {
+  await render(); // Рендерим начальную страницу
   initTheme(); // Инициализируем тему при загрузке главной страницы
 }); 

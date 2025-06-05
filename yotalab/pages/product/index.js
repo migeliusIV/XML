@@ -8,9 +8,9 @@ export class ProductPage extends Page {
     super();
     this.id = id;
   }
-  render() {
+  async render() {
     // Get tariff from the data module
-    const tariff = getTariffById(this.id);
+    const tariff = await getTariffById(this.id);
 
     if (!tariff) {
       this.el.innerHTML = '<h2>Тариф не найден</h2>';

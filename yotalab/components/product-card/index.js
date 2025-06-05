@@ -7,6 +7,7 @@ const APP_ICONS = {
   twitch: 'icons/twitch-v2-svgrepo-com.svg',
   tiktok: 'icons/tiktok.svg',
   youtube: 'icons/youtube.svg',
+
 };
 
 export class ProductCard extends Component {
