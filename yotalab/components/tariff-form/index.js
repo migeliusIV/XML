@@ -1,9 +1,9 @@
 import { Component } from '../component.js';
 
 export const AVAILABLE_APPS = {
-  vk: { name: 'ВКонтакте', icon: '../../icons/vk-v2-svgrepo-com.svg' },
-  whatsapp: { name: 'WhatsApp', icon: '../../icons/whatsapp-svgrepo-com.svg' },
-  telegram: { name: 'Telegram', icon: '../../icons/telegram-svgrepo-com.svg' },
+  vk: { name: 'ВКонтакте', icon: 'icons/vk-v2-svgrepo-com.svg' },
+  whatsapp: { name: 'WhatsApp', icon: 'icons/whatsapp-svgrepo-com.svg' },
+  telegram: { name: 'Telegram', icon: 'icons/telegram-svgrepo-com.svg' },
   twitch: { name: 'Twitch', icon: 'icons/twitch-v2-svgrepo-com.svg' },
 };
 
