@@ -58,7 +58,7 @@ export class ProductPage extends Page {
         <!-- Card 1: Оформить -->
         <div class="col">
           <div class="card h-100 text-center p-3">
-            <img src="icons/esim_banner_d.png" class="card-img-top mx-auto mb-3" alt="Оформить" style="width: auto; height: 80px;">
+            <img src="/icons/esim_banner_d.png" class="card-img-top mx-auto mb-3" alt="Оформить" style="width: auto; height: 80px;">
             <div class="card-body p-0">
               <h5 class="card-title">Оформить</h5>
               <p class="card-text" style="font-size: 0.9em; color: #6c757d;">Можно с 14 лет - нужен паспорт. Занимает 1 минуту.</p>
@@ -68,7 +68,7 @@ export class ProductPage extends Page {
         <!-- Card 2: Получить -->
         <div class="col">
           <div class="card h-100 text-center p-3">
-            <img src="icons/samokat_d.svg.png" class="card-img-top mx-auto mb-3" alt="Получить" style="width: auto; height: 80px;">
+            <img src="/icons/samokat_d.svg.png" class="card-img-top mx-auto mb-3" alt="Получить" style="width: auto; height: 80px;">
             <div class="card-body p-0">
               <h5 class="card-title">Получить</h5>
               <p class="card-text" style="font-size: 0.9em; color: #6c757d;">С доставкой от 30 минут или забрать самому в точке продаж.</p>
@@ -78,7 +78,7 @@ export class ProductPage extends Page {
         <!-- Card 3: Быть на связи -->
         <div class="col">
           <div class="card h-100 text-center p-3">
-            <img src="icons/podkluchi_maximum_desc.png" class="card-img-top mx-auto mb-3" alt="Быть на связи" style="width: auto; height: 80px;">
+            <img src="/icons/podkluchi_maximum_desc.png" class="card-img-top mx-auto mb-3" alt="Быть на связи" style="width: auto; height: 80px;">
             <div class="card-body p-0">
               <h5 class="card-title">Быть на связи</h5>
               <p class="card-text" style="font-size: 0.9em; color: #6c757d;">С новым номером или с сохранением своего.</p>

@@ -27,7 +27,7 @@ export class TariffForm extends Component {
           value="${key}" id="app-${key}" name="apps" 
           ${this.selectedApps.includes(key) ? 'checked' : ''}>
         <label class="form-check-label d-flex align-items-center gap-2" for="app-${key}">
-          <img src="${app.icon}" alt="${app.name}" width="24" height="24" style="background:#f5f5f5;border-radius:50%;padding:2px;">
+          <img src="/icons/${app.icon}" alt="${app.name}" width="24" height="24" style="background:#f5f5f5;border-radius:50%;padding:2px;">
           ${app.name}
         </label>
       </div>

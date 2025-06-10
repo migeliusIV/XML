@@ -35,7 +35,7 @@ export class Product extends Component {
               ${tariff.unlimited_apps && tariff.unlimited_apps.length > 0 ? 
                   tariff.unlimited_apps.map(appKey => {
                     const app = AVAILABLE_APPS[appKey];
-                    return app ? `<img src="../../${app.icon}" alt="${app.name}" style="width: 24px; height: 24px; margin-right: 4px;">` : '';
+                    return app ? `<img src="/icons/${app.icon}" alt="${app.name}" style="width: 24px; height: 24px; margin-right: 4px;">` : '';
                   }).join('')
                   : '-'
                }
